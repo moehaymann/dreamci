@@ -72,7 +72,7 @@ router.post("/checkingSeats", async function (req,res){
   const seats = await Seats.find({
     cinemaId: req.body.cinemaId,
     screenNo: req.body.screen,
-  }).sort({row:1, screenNo:1, no:1});
+  }).sort({row:1, no:1, screenNo:1,}).collation({ locale: "en_US", numericOrdering: true });
   let takeSeats = [];
   const bookings = await Bookings.find({
     movieId: req.body.movieId,
@@ -119,5 +119,8 @@ router.post("/bookingreceipt",upload.single("receipt"), async function(req,res){
 router.get("/cinemas", async function(req,res){
   const cinemas = await Cinemas.find({});
   res.render("cinemas", {cinemas:cinemas});
+});
+router.get("/aboutus", function(req,res){
+  res.render("aboutus");
 });
 module.exports = router;
